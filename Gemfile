@@ -35,9 +35,17 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'rb-readline'
 
+gem 'simplecov', require: false
+
 group :production do
   gem 'pg'
   gem 'rails_12factor'
+end
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development, :test do
@@ -46,6 +54,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'better_errors'
   gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-its'
 end
 
 group :development do

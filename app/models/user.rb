@@ -16,4 +16,25 @@ class User < ActiveRecord::Base
   has_many :beer_clubs, through: :memberships
 
   has_secure_password
+
+  def favorite_beer
+    return nil if ratings.empty?
+    ratings.order(score: :desc).limit(1).first.beer
+  end
+
+  def favorite_style
+    return nil if ratings.empty?
+    
+    group = ratings.group_by { |x| x.beer.send(:style) }
+    group.each_pair { |key, value| group[key] = value.sum(&:score) / value.size.to_f }
+    group.sort_by { |key, value| value }.last[0]
+  end
+
+  def favorite_brewery
+    return nil if ratings.empty?
+
+    group = ratings.group_by { |x| x.beer.send(:brewery) }
+    group.each_pair { |key, value| group[key] = value.sum(&:score) / value.size.to_f }
+    group.sort_by { |key, value| value }.last[0]
+  end
 end

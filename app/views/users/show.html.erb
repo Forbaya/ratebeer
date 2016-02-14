@@ -3,11 +3,19 @@
 <p><h1><%= @user.username %></h1></p>
 <p>has made <%= pluralize(@user.ratings.count, 'rating') %>, average <%= @user.average_rating %> </p>
 
+
 <p>member of
   <% @user.beer_clubs.each do |club| %>
     <%= link_to club.name, club %>
   <% end %>
 </p>
+  
+<% if !@user.favorite_style.nil? %>
+  <p>favorite style: <%= @user.favorite_style %></p>
+<% end %>
+<% if !@user.favorite_brewery.nil? %>  
+  <p>favorite brewery: <%= @user.favorite_brewery.name %></p>
+<% end %>
 
 <p><h2>ratings</h2></p>
 <ul>
