@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def is_member_of?(beer_club)
+    clubs = BeerClub.all.select { |bc| not bc.members.find_by username:self.username }
+    not clubs.include? beer_club
+  end
+  
   def favorite_beer
     return nil if ratings.empty?
     ratings.order(score: :desc).limit(1).first.beer

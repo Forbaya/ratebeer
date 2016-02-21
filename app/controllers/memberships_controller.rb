@@ -12,17 +12,19 @@ class MembershipsController < ApplicationController
   # GET /memberships/1
   # GET /memberships/1.json
   def show
+    @membership = Membership.find(params[:id])
   end
 
   # GET /memberships/new
   def new
     @membership = Membership.new
-    @beerclubs = BeerClub.all
+    @beer_clubs = BeerClub.all.reject { |club| current_user.in? club.members }
     @users = User.all
   end
 
   # GET /memberships/1/edit
   def edit
+    @membership = Membership.find(params[:id])
   end
 
   # POST /memberships
@@ -31,6 +33,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.new(membership_params)
 
     respond_to do |format|
+      current_user.memberships << @membership
       if @membership.save
         format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
         format.json { render :show, status: :created, location: @membership }
@@ -44,6 +47,8 @@ class MembershipsController < ApplicationController
   # PATCH/PUT /memberships/1
   # PATCH/PUT /memberships/1.json
   def update
+    @membership = Membership.find(params[:id])
+    
     respond_to do |format|
       if @membership.update(membership_params)
         format.html { redirect_to @membership, notice: 'Membership was successfully updated.' }
@@ -58,6 +63,7 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    @membership = Membership.find(params[:id])
     @membership.destroy
     respond_to do |format|
       format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
