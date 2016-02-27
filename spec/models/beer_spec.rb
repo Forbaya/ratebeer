@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Beer, type: :model do
   it "is saved with a valid name and style" do
-    beer = Beer.create name:"Bisse", style:"Lager"
+    beer = Beer.create name:"Bisse", style: Style.new(name: "Lager")
 
     expect(beer.valid?).to be(true)
   end
 
   it "is not saved without a name" do
-    beer = Beer.create style:"Lager"
+    beer = Beer.create style: Style.new(name:"Lager")
 
     expect(beer.valid?).to be(false)
   end

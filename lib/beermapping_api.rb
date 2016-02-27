@@ -5,8 +5,8 @@ class BeermappingApi
   end
 
   def self.place(city, id)
-    places = self.places_in(city)
-    places.find { |x| x.id == id }
+    city = city.downcase
+    places_in(city).select{ |p| p.id==id }.first
   end
   
   private

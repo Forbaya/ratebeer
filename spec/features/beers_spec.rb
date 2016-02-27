@@ -5,11 +5,14 @@ describe "Beer" do
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")
+    FactoryGirl.create :brewery, name:"Panimo"
+    FactoryGirl.create :style
   end
 
   it "can be added with a valid name" do
     visit new_beer_path
     fill_in('beer_name', with:'Bisse')
+    select("Lager", from:'beer[style_id]')
 
     expect {
       click_button "Create Beer"

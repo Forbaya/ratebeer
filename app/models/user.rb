@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     
     group = ratings.group_by { |x| x.beer.send(:style) }
     group.each_pair { |key, value| group[key] = value.sum(&:score) / value.size.to_f }
-    group.sort_by { |key, value| value }.last[0]
+    group.sort_by { |key, value| value }.last[0].name
   end
 
   def favorite_brewery

@@ -29,15 +29,18 @@ describe "User" do
   describe "favorite style and brewery" do
     it "should be correct with two ratings" do
       user = FactoryGirl.create :user, username:"vilu"
-      brewery = FactoryGirl.create :brewery, name:"Asd"
-      beer1 = FactoryGirl.create :beer, name:"IPA", style:"IPA", brewery:brewery
-      beer2 = FactoryGirl.create :beer, name:"Koff", brewery:brewery
+      brewery1 = FactoryGirl.create :brewery, name:"Asd"
+      brewery2 = FactoryGirl.create :brewery
+      lager = FactoryGirl.create :style
+      ipa = FactoryGirl.create :style, name: "IPA"
+      beer1 = FactoryGirl.create :beer, name:"IPA", style:lager, brewery:brewery2
+      beer2 = FactoryGirl.create :beer, name:"Koff", style:ipa, brewery:brewery1
       rating1 = FactoryGirl.create :rating, beer:beer1, user:user
       rating2 = FactoryGirl.create :rating2, beer:beer2, user:user
 
       visit user_path(user)
 
-      expect(page).to have_content("favorite style: Lager")
+      expect(page).to have_content("favorite style: IPA")
       expect(page).to have_content("favorite brewery: Asd")
     end
   end
