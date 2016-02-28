@@ -64,6 +64,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def ban
+    u = User.find_by id:params[:id]
+    u.update_attribute(:banned, !u.banned)
+    redirect_to :back, notice: "User frozen: #{u.banned}"
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -1,8 +1,21 @@
 <p id="notice"><%= notice %></p>
 
-<p><h1><%= @user.username %></h1></p>
+<p>
+  <h1><%= @user.username %></h1>
+  <% if @user.banned? %>
+    <span class="label label-info">account frozen</span>
+  <% end %>
+</p>
+
 <p>has made <%= pluralize(@user.ratings.count, 'rating') %>, average <%= @user.average_rating %> </p>
 
+<% if current_user and current_user.admin? %>
+  <% if @user.banned %>
+    <%= button_to "Unfreeze account", ban_user_path(@user), class:"btn btn-danger" %>
+  <% else %>
+    <%= button_to "Freeze account", ban_user_path(@user), class:"btn btn-danger" %>  
+  <% end %>
+<% end %>
 
 <p>member of
   <% @user.beer_clubs.each do |club| %>
@@ -11,7 +24,7 @@
 </p>
   
 <% if !@user.favorite_style.nil? %>
-  <p>favorite style: <%= @user.favorite_style %></p>
+  <p>favorite style: <%= @user.favorite_style.name %></p>
 <% end %>
 <% if !@user.favorite_brewery.nil? %>  
   <p>favorite brewery: <%= @user.favorite_brewery.name %></p>
