@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    @top_raters = User.top_raters 3
   end
 
   # GET /users/1

@@ -6,6 +6,7 @@ class BeersController < ApplicationController
   # GET /beers.json
   def index
     @beers = Beer.all
+    @top_beers = Beer.top 3
   end
 
   # GET /beers/1

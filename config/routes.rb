@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   post 'places', to:'places#search'
   get "places/:city/:id", to: "places#show", as: :place
   get 'places', to: 'places#index'
+
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

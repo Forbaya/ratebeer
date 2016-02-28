@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def self.top_raters(n)
+    User.all.sort_by { |u| -u.ratings.count }.first(3)
+  end
+  
   def is_member_of?(beer_club)
     clubs = BeerClub.all.select { |bc| not bc.members.find_by username:self.username }
     not clubs.include? beer_club
@@ -29,17 +33,25 @@ class User < ActiveRecord::Base
 
   def favorite_style
     return nil if ratings.empty?
-    
-    group = ratings.group_by { |x| x.beer.send(:style) }
-    group.each_pair { |key, value| group[key] = value.sum(&:score) / value.size.to_f }
-    group.sort_by { |key, value| value }.last[0].name
+
+    rated = ratings.map{ |r| r.beer.style }.uniq
+    rated.sort_by { |style| -rating_of_style(style) }.first
   end
 
   def favorite_brewery
     return nil if ratings.empty?
 
-    group = ratings.group_by { |x| x.beer.send(:brewery) }
-    group.each_pair { |key, value| group[key] = value.sum(&:score) / value.size.to_f }
-    group.sort_by { |key, value| value }.last[0]
+    rated = ratings.map{ |r| r.beer.brewery }.uniq
+    rated.sort_by { |brewery| -rating_of_brewery(brewery) }.first
+  end
+
+  def rating_of_style(style)
+    ratings_of = ratings.select{ |r| r.beer.style==style }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+  end
+
+  def rating_of_brewery(brewery)
+    ratings_of = ratings.select{ |r| r.beer.brewery==brewery }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
   end
 end
