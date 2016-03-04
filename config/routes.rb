@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :beers
   resources :breweries
   resources :ratings, only: [:index, :new, :create, :destroy]
+  resources :places, only: [:index, :show]
   resource :session, only: [:new, :create, :destroy]
   
   root 'breweries#index'
@@ -14,8 +15,6 @@ Rails.application.routes.draw do
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
   post 'places', to:'places#search'
-  get "places/:city/:id", to: "places#show", as: :place
-  get 'places', to: 'places#index'
 
   resources :breweries do
     post 'toggle_activity', on: :member
