@@ -34,4 +34,30 @@ describe "Beerlist page" do
     
     expect(page).to have_content "Nikolai"
   end
+
+  it "shows beers in alpabetical order" do
+    visit beerlist_path
+
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Fastenbier"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Lechte Weisse"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Koff"
+  end
+
+  it "shows styles in alpabetical order when clicking style" do
+    visit beerlist_path
+    click_link "Style"
+
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Lager"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Lechte Weisse"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Fastenbier"
+  end
+
+  it "shows breweries in alpabetical order when clicking brewery" do
+    visit beerlist_path
+    click_link "Brewery"
+
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Ayinger"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Koff"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Schlenkerla"
+  end 
 end
