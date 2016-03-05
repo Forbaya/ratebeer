@@ -5,9 +5,43 @@ class BreweriesController < ApplicationController
   # GET /breweries
   # GET /breweries.json
   def index
+    @breweries = Brewery.all
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
-    @top_breweries = Brewery.top 3
+
+    order = params[:order] || 'name'
+    reverse = session[:reverse] || false
+    
+    @active_breweries = case order
+      when 'name' then
+        if reverse
+          Brewery.active.order(:name).reverse
+        else
+          Brewery.active.order(:name)
+        end
+      when 'year' then
+        if reverse
+          Brewery.active.order(:year).reverse
+        else
+          Brewery.active.order(:year)
+        end
+    end
+
+    @retired_breweries = case order
+      when 'name' then
+        if reverse
+          Brewery.retired.order(:name).reverse
+        else
+          Brewery.retired.order(:name)
+        end
+      when 'year' then
+        if reverse
+          Brewery.retired.order(:year).reverse
+        else
+          Brewery.retired.order(:year)
+        end
+    end
+    session[:reverse] = !reverse
   end
 
   # GET /breweries/1
@@ -17,13 +51,16 @@ class BreweriesController < ApplicationController
 
   # GET /breweries/new
   def new
-    @brewery = Brewery.new(brewery_params)
+    @brewery = Brewery.new
   end
 
   # GET /breweries/1/edit
   def edit
   end
 
+  def nglist
+  end
+  
   # POST /breweries
   # POST /breweries.json
   def create

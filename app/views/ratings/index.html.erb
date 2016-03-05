@@ -3,16 +3,16 @@
 <p>Number of ratings <%= pluralize(@ratings.count, 'rating') %></p>
 
 <div class="row">
-  <div class="col-xs-3 col-sm-3"
-    <h3>Top beers</h3>
+  <div class="col-md-3"
+    <h4>Top beers</h4>
     <%= render 'top', things: @top_beers %>
   </div>
-  <div class="col-xs-3 col-sm-3"
-    <h3>Top breweries</h3>
+  <div class="col-md-3"
+    <h4>Top breweries</h4>
     <%= render 'top', things: @top_breweries %>
   </div>
-  <div class="col-xs-3 col-sm-3"
-    <h3>Top styles</h3>
+  <div class="col-md-3"
+    <h4>Top styles</h4>
     <%= render 'top', things: @top_styles %>
   </div>  
 </div>
