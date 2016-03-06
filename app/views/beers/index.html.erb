@@ -2,6 +2,8 @@
 
 <h1>Listing Beers</h1>
 
+<% cache 'beerlist', skip_digest: true do %>
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -22,8 +24,8 @@
   </tbody>
 </table>
 
+<% end %>
+
 <br>
 
-<% if not current_user.nil? %>
-  <%= link_to 'New Beer', new_beer_path, class:"btn btn-primary" %>
-<% end %>
+<%= link_to 'New Beer', new_beer_path, class:"btn btn-primary" if current_user %>

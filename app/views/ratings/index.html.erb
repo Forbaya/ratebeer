@@ -1,44 +1,47 @@
 <h2>List of ratings</h2>
 
-<p>Number of ratings <%= pluralize(@ratings.count, 'rating') %></p>
+<% cache 'ratinglist', expires_in:10.minutes do %>
+  <p>Number of ratings <%= pluralize(@ratings.count, 'rating') %></p>
 
-<div class="row">
-  <div class="col-md-3"
-    <h4>Top beers</h4>
-    <%= render 'top', things: @top_beers %>
+  <div class="row">
+    <div class="col-md-3"
+      <h4>Top beers</h4>
+      <%= render 'top', things: @top_beers %>
+    </div>
+    <div class="col-md-3"
+      <h4>Top breweries</h4>
+      <%= render 'top', things: @top_breweries %>
+    </div>
+    <div class="col-md-3"
+      <h4>Top styles</h4>
+      <%= render 'top', things: @top_styles %>
+    </div>  
   </div>
-  <div class="col-md-3"
-    <h4>Top breweries</h4>
-    <%= render 'top', things: @top_breweries %>
-  </div>
-  <div class="col-md-3"
-    <h4>Top styles</h4>
-    <%= render 'top', things: @top_styles %>
-  </div>  
-</div>
 
-<h3>Top raters</h3>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>Favorite beer</td>
-            <td>Favorite brewery</td>
-            <td>Favorite style</td>
-            <td>Ratings</td>
-        </tr>
-    </thead>
-    <tbody>
-        <% @top_raters.each do |user| %>
-            <tr>
-                <td><%= link_to user.username, user %></td>
-                <td><%= link_to user.favorite_beer.name, user.favorite_beer %></td>
-                <td><%= link_to user.favorite_brewery.name, user.favorite_brewery %></td>
-                <td><%= link_to user.favorite_style.name, user.favorite_style %></td>
-                <td><%= user.ratings.count %></td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+  <h3>Top raters</h3>
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <td>Name</td>
+              <td>Favorite beer</td>
+              <td>Favorite brewery</td>
+              <td>Favorite style</td>
+              <td>Ratings</td>
+          </tr>
+      </thead>
+      <tbody>
+          <% @top_raters.each do |user| %>
+              <tr>
+                  <td><%= link_to user.username, user %></td>
+                  <td><%= link_to user.favorite_beer.name, user.favorite_beer %></td>
+                  <td><%= link_to user.favorite_brewery.name, user.favorite_brewery %></td>
+                  <td><%= link_to user.favorite_style.name, user.favorite_style %></td>
+                  <td><%= user.ratings.count %></td>
+              </tr>
+          <% end %>
+      </tbody>
+  </table>
+
+<% end %>
 
 <%= link_to 'New Rating', new_rating_path, class:"btn btn-primary" %>

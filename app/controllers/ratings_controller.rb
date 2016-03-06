@@ -1,6 +1,6 @@
 class RatingsController < ApplicationController
   def index
-    @ratings = Rating.all
+    @ratings = Rating.includes(:beer, :user).all
     @recent_ratings = Rating.recent
     @top_beers = Beer.top 3
     @top_breweries = Brewery.top 3
@@ -9,6 +9,7 @@ class RatingsController < ApplicationController
   end
 
   def create
+    expire_fragment('ratinglist')
     @rating = Rating.create params.require(:rating).permit(:score, :beer_id)
 
     if current_user.nil?
@@ -28,6 +29,7 @@ class RatingsController < ApplicationController
   end
 
   def destroy
+    expire_fragment('ratinglist')
     rating = Rating.find(params[:id])
     rating.delete if current_user == rating.user
     redirect_to :back

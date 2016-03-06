@@ -39,6 +39,8 @@ gem 'rb-readline'
 gem 'httparty'
 gem 'bootstrap-sass'
 gem 'selenium-webdriver'
+gem 'rack-mini-profiler'
+gem 'omniauth-github'
 
 gem 'simplecov', require: false
 

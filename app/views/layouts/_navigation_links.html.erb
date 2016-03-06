@@ -8,4 +8,5 @@
 <% if current_user.nil? %>
   <li><%= link_to 'signin', signin_path %></li>
   <li><%= link_to 'signup', signup_path %></li>
+  <li><%= button_to "Sign in with Github", 'auth/github', :class => "btn btn-primary navbar-btn"%></li>
 <% end %>

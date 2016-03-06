@@ -1,7 +1,7 @@
 class Rating < ActiveRecord::Base
   include RatingAverage
 
-  belongs_to :beer
+  belongs_to :beer, touch: true
   belongs_to :user
 
   scope :recent, -> { where order("created_at desc").limit(3) }

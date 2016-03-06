@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true,
                        length: { minimum: 3,
                                  maximum: 15 }
-  validates :password, length: { minimum: 4 },
-                       format: {
+  validates :password, length: { minimum: 4 }, unless: :skip_password_validation
+  validates :passwprd, format: {
                          with: /\d.*[A-Z]|[A-Z].*\d/,
                          message: "password has to contain one number and one upper case letter"
-                       }
+                       }, unless: :skip_password_validation
   
   has_many :ratings, dependent: :destroy
   has_many :beers, through: :ratings
@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  attr_accessor :skip_password_validation
+  
   def self.top_raters(n)
     User.all.sort_by { |u| -u.ratings.count }.first(3)
   end
